@@ -130,7 +130,7 @@ endif()
 
 #编译动态库
 #Compile dynamic library
-if(NOT IOS AND NOT ANDROID AND NOT WIN32)
+if(NOT IOS AND NOT ANDROID AND NOT WIN32 AND BUILD_SHARED_LIBS)
     add_library(${PROJECT_NAME}_shared SHARED ${SRC_LIST})
     target_include_directories(${PROJECT_NAME}_shared PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
     target_link_libraries(${PROJECT_NAME}_shared ${LINK_LIB_LIST})
@@ -152,6 +152,10 @@ install(TARGETS ${PROJECT_NAME}_static ARCHIVE DESTINATION ${INSTALL_PATH_LIB})
 
 #测试程序
 #Test program
-if(NOT IOS)
+if(NOT DEFINED Build_ZLToolKit_tests)
+  set(Build_ZLToolKit_tests OFF)
+endif()
+
+if(NOT IOS AND Build_ZLToolKit_tests)
     add_subdirectory(tests)
 endif()
